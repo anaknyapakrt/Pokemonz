@@ -58,5 +58,14 @@ async def attack(ctx):
     else:
         await ctx.send("Tetapkan pengguna yang ingin Anda serang dengan menyebut mereka.")
 
+@bot.command()
+async def feed(ctx):
+    author = ctx.author.name
+    if author in Pokemon.pokemons:
+        pokemon = Pokemon.pokemons[author]
+        result = await pokemon.feed()
+        await ctx.send(result)
+    else:
+        await ctx.send("Kamu belum punya Pokémon! Ketik !go terlebih dahulu.")
 
 bot.run("PUT YOUR TOKEN HERE")  # Running the bot with the token that is provided by Discord for your bot
