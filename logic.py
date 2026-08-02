@@ -25,6 +25,27 @@ class Pokemon:
         self.power = new_power
         self.hp = new_hp 
 
+    async def feed(self):
+        # Fetching from a different API endpoint (Berry API)
+        url = f'https://pokeapi.co{random.randint(1, 64)}'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                berry_name = "Berry"
+                if response.status == 200:
+                    data = await response.json()
+                    berry_name = data['name'].title()
+
+                # Rare drop chance (1 out of 5)
+                if random.randint(1, 5) == 1:
+                    self.power += 20
+                    self.hp += 50
+                    return f"drop langka! memakan {berry_name} emas! power +20, HP +50! "
+                else:
+                    self.power += 5
+                    self.hp += 10
+                    return f"yummy! pokemon memakan {berry_name}. power +5, HP +10."
+
+        
     async def get_name(self):
         # An asynchronous method to get the name of a pokémon via PokeAPI
         url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_number}'  # URL API for the request
